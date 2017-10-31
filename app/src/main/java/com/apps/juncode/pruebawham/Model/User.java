@@ -8,7 +8,7 @@ public class User {
 
     private String token, UID, nombre, correo, foto, activo;
 
-    public User(String token, String UID, String nombre, String correo, String foto, String activo) {
+    public User(String token, String UID, String nombre, String correo, String foto, String activo){
         this.token = token;
         this.UID = UID;
         this.nombre = nombre;

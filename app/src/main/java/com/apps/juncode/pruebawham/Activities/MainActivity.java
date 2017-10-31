@@ -18,6 +18,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.apps.juncode.pruebawham.BaseDatos.BaseDatos;
+import com.apps.juncode.pruebawham.Model.User;
 import com.apps.juncode.pruebawham.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -50,9 +52,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-//                Intent i = new Intent(MainActivity.this, ContactActivity.class);
-//                startActivity(i);
-//                finish();
+                Intent i = new Intent(MainActivity.this, ContactActivity.class);
+                startActivity(i);
+                finish();
 
             }
         });
@@ -67,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                 if (firebaseUser != null) {
 
-                    //datosAlToolBar();
+                    datosAlToolBar();
                     Log.d(TAG, "Usuario Activo: " + firebaseUser.getEmail());
 
 
@@ -85,14 +87,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void datosAlToolBar(){
 
-//        BaseDatos db = new BaseDatos(this);
-//
-//        User u;
-//
-//        u = db.obtenerUsuario();
-//
-//        tv_perfil_name.setText(u.getNombre());
-//        tv_userName.setText(u.getGenero());
+        BaseDatos db = new BaseDatos(this);
+
+        User u;
+
+        u = db.obtenerUsuario();
+
+        tv_perfil_name.setText(u.getNombre());
+     // tv_userName.setText();
 
 
     }

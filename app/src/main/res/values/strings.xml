@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">WhamChat</string>
     <string name="perf_name">Nombre</string>
-    <string name="user_name_ini">User</string>
+    <string name="user_name_ini">Estado</string>
     <string name="buscar">Buscar</string>
     <string name="app_Reg_pass">Contraseña</string>
     <string name="app_Reg_pass2">Repitela</string>

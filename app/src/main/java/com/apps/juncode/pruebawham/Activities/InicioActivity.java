@@ -172,8 +172,7 @@ public class InicioActivity extends AppCompatActivity {
                         User cCurrent =  dataSnapshot.child(String.valueOf(i + 1)).getValue(User.class);
                         constructorDB.insertarContacto(cCurrent);
                     }
-
-
+                    
                 }
 
             }
