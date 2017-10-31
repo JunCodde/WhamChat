@@ -8,4 +8,46 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
+    <style name="Miraisedbtn" parent="Theme.AppCompat.Light">
+        <item name="colorButtonNormal">@color/colorPrimaryDark</item>
+        <item name="colorControlHighlight">@color/colorPrimary</item>
+        <item name="android:textColor">#FFF</item>
+        <item name="colorBackgroundFloating">#FFF</item>
+    </style>
+
+
+    <style name="colorAcentBlanco" parent="TextAppearance.AppCompat">
+
+        <item name="colorAccent">#FFF</item>
+        <item name="android:textColorHint">#FFF</item>
+        <item name="colorControlNormal">#FFF</item>
+        <item name="android:editTextColor">#FFF</item>
+    </style>
+
+    <style name="acentPrimaryRB" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="acentPink" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="colorAccent">#FF4C4F</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="colorAcentgris" parent="TextAppearance.AppCompat">
+
+        <item name="colorAccent">#808080</item>
+        <item name="android:textColorHint">#808080</item>
+        <item name="colorControlNormal">#808080</item>
+    </style>
+
 </resources>

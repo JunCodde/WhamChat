@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">WhamChat</string>
+    <string name="perf_name">Nombre</string>
+    <string name="user_name_ini">User</string>
+    <string name="buscar">Buscar</string>
+    <string name="app_Reg_pass">Contraseña</string>
+    <string name="app_Reg_pass2">Repitela</string>
+    <string name="reg_name">Nombre</string>
+    <string name="reg_email">Email</string>
+    <string name="gender_user">Hombre</string>
+    <string name="gender_user_female">Mujer</string>
+    <string name="invite_txt">Agregar</string>
 </resources>
