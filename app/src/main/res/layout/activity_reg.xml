@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.apps.juncode.pruebawham.Activities.RegActivity"
+    android:orientation="vertical">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="50dp">
+
+                <EditText
+                    android:id="@+id/et_Reg_nombre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/colorAcentgris"
+                    android:hint="@string/reg_name" />
+
+                <EditText
+                    android:id="@+id/et_Reg_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/reg_email"
+                    android:theme="@style/colorAcentgris"
+                    android:inputType="textEmailAddress"/>
+
+
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp">
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:stretchColumns="0,1">
+                    <TableRow>
+
+                        <TextView
+                            android:layout_marginLeft="4dp"
+                            android:id="@+id/tv_pass"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="@string/app_Reg_pass"
+                            android:textColor="#808080"
+
+                            />
+
+                        <TextView
+                            android:id="@+id/tv_pass2"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="@string/app_Reg_pass2"
+                            android:textColor="#808080"
+                            />
+
+                    </TableRow>
+
+                    <TableRow>
+
+                        <EditText
+                            android:layout_toLeftOf="@+id/medio"
+                            android:id="@+id/et_Reg_pass"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:theme="@style/colorAcentgris"
+                            android:inputType="textPassword"/>
+
+                        <EditText
+                            android:layout_toLeftOf="@+id/medio"
+                            android:id="@+id/et_Reg_pass2"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:theme="@style/colorAcentgris"
+                            android:inputType="textPassword"/>
+
+                    </TableRow>
+                </TableLayout>
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="20dp">
+
+                <Button
+                    android:id="@+id/btn_reg_Reg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Registrarse"
+                    android:theme="@style/Miraisedbtn"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:stretchColumns="0,1">
+
+
+                    <TableRow>
+
+
+                        <EditText
+                            android:id="@+id/et_Reg_iniciarSeccion"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:inputType="textPassword"
+                            android:visibility="invisible"/>
+
+                    </TableRow>
+
+
+
+                </TableLayout>
+
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
