@@ -1,6 +1,7 @@
 package com.apps.juncode.pruebawham.Activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.apps.juncode.pruebawham.BaseDatos.ConstructorDB;
+import com.apps.juncode.pruebawham.Model.User;
 import com.apps.juncode.pruebawham.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -122,10 +125,11 @@ public class InicioActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
 
-//                            User u = dataSnapshot.getValue(User.class);
-//                            actContactos(u);
-//                            guardarDB(u);
-//                            checkBD();
+                            User u = dataSnapshot.getValue(User.class);
+                            u.setActivo("false");
+                            actContactos(u);
+                            guardarDB(u);
+                            checkBD();
 
                         }
 
@@ -148,57 +152,62 @@ public class InicioActivity extends AppCompatActivity {
 
     }
 
-//    public void actContactos(User u){
-//
-//        final ConstructorDB constructorDB = new ConstructorDB(activity);
-//        constructorDB.BorrarContactos();
-//
-//
-//        databaseReference.child(CONTACT_NODE).child(u.getUID()).addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//                for (int i = 0; i <= dataSnapshot.getChildrenCount(); i++) {
-//
-//                    Contact cCurrent =  dataSnapshot.child(String.valueOf(i)).getValue(Contact.class);
-//
-//                    constructorDB.insertarContacto(cCurrent);
-//
-//
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-//
-//    }
+    public void actContactos(User u){
 
-//    private void guardarDB(User u) {
-//
-//        ConstructorDB constructorDB = new ConstructorDB(activity);
-//        constructorDB.insertarUsuario(u);
-//
-//
-//
-//    }
+        final ConstructorDB constructorDB = new ConstructorDB(activity);
+        constructorDB.BorrarContactos();
+
+
+        databaseReference.child(CONTACT_NODE).child(u.getUID()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (int i = 0; i <= dataSnapshot.getChildrenCount(); i++) {
+
+                    if(dataSnapshot.getChildrenCount() == 0){
+
+                        Log.d(TAG, "no hay contactos");
+
+                    }else {
+                        User cCurrent =  dataSnapshot.child(String.valueOf(i + 1)).getValue(User.class);
+                        constructorDB.insertarContacto(cCurrent);
+                    }
+
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    private void guardarDB(User u) {
+
+        ConstructorDB constructorDB = new ConstructorDB(activity);
+        constructorDB.insertarUsuario(u);
+
+
+
+    }
 
     private void checkBD(){
 
-//        ConstructorDB constructorDB = new ConstructorDB(getApplicationContext());
-//        if(constructorDB.checkIfUserExist()){
-//
-//            Intent i = new Intent(InicioActivity.this, MainActivity.class);
-//            startActivity(i);
-//            finish();
-//            Log.d(TAG, String.valueOf(constructorDB.checkIfUserExist()));
-//
-//        }else {
-//            checkBD();
-//        }
+        ConstructorDB constructorDB = new ConstructorDB(getApplicationContext());
+        if(constructorDB.checkIfUserExist()){
+
+            Intent i = new Intent(InicioActivity.this, MainActivity.class);
+            startActivity(i);
+            finish();
+            Log.d(TAG, String.valueOf(constructorDB.checkIfUserExist()));
+
+        }else {
+            checkBD();
+        }
 
     }
 
