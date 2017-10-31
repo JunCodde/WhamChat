@@ -1,5 +1,6 @@
 package com.apps.juncode.pruebawham.Activities;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMain);
         setSupportActionBar(toolbar);
 
+        initialize();
 
         img_perfil_circulo();
 
@@ -65,16 +67,16 @@ public class MainActivity extends AppCompatActivity {
                 FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                 if (firebaseUser != null) {
 
-                    datosAlToolBar();
+                    //datosAlToolBar();
                     Log.d(TAG, "Usuario Activo: " + firebaseUser.getEmail());
 
 
 
                 } else {
 
-//                    Intent i = new Intent(MainActivity.this, InicioActivity.class);
-//                    startActivity(i);
-//                    finish();
+                    Intent i = new Intent(MainActivity.this, InicioActivity.class);
+                    startActivity(i);
+                    finish();
 
                 }
             }
