@@ -56,9 +56,9 @@ public class RegActivity extends AppCompatActivity {
             called = true;
         }
 
-        initialize();
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
+
 
         initialize();
 

@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.apps.juncode.pruebawham.Adapter.Contacto_adaptador;
 import com.apps.juncode.pruebawham.Adapter.RestAPIAdapter;
 import com.apps.juncode.pruebawham.BaseDatos.ConstructorDB;
 import com.apps.juncode.pruebawham.Endpoints.Endpoint;
@@ -54,7 +55,7 @@ public class ContactActivity extends AppCompatActivity {
     private static final String TAG = "ContactActivity";
 
     private RecyclerView rv_contactos;
-    //private Contacto_adaptador adaptador;
+    private Contacto_adaptador adaptador;
     private LinearLayoutManager lManager;
     private ArrayList<User> contacts = new ArrayList<>();
 
@@ -72,6 +73,8 @@ public class ContactActivity extends AppCompatActivity {
 
         rv_contactos = (RecyclerView) findViewById(R.id.rv_contactos);
         rv_contactos.setHasFixedSize(true);
+
+        ponerRV();
 
         btn_invite.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,7 +111,7 @@ public class ContactActivity extends AppCompatActivity {
 
                                     guardarRealTime(c);
 
-                                    //ponerRV();
+                                    ponerRV();
 
                                     Log.d(TAG,  "Nombre:"   +  c.getNombre()    + "\n" +
                                             "Correo:"   +  c.getCorreo()    + "\n" +
@@ -158,17 +161,17 @@ public class ContactActivity extends AppCompatActivity {
 
     }
 
-//    private void ponerRV(){
-//
-//        lManager = new LinearLayoutManager(this);
-//        lManager.setOrientation(LinearLayoutManager.VERTICAL);
-//        rv_contactos.setLayoutManager(lManager);
-//
-//        pasarContactos();
-//
-//        adaptador = new Contacto_adaptador(contacts, this);
-//        rv_contactos.setAdapter(adaptador);
-//    }
+    private void ponerRV(){
+
+        lManager = new LinearLayoutManager(this);
+        lManager.setOrientation(LinearLayoutManager.VERTICAL);
+        rv_contactos.setLayoutManager(lManager);
+
+        pasarContactos();
+
+        adaptador = new Contacto_adaptador(contacts, this);
+        rv_contactos.setAdapter(adaptador);
+    }
 
     private void pasarContactos(){
 

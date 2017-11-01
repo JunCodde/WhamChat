@@ -99,7 +99,8 @@ public class InicioActivity extends AppCompatActivity {
         tv_create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(activity, "nalgas", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(InicioActivity.this, RegActivity.class);
+                startActivity(i);
             }
         });
 
@@ -162,18 +163,25 @@ public class InicioActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                for (int i = 0; i <= dataSnapshot.getChildrenCount(); i++) {
+
+                Log.d(TAG, String.valueOf(dataSnapshot.getChildrenCount()));
 
                     if(dataSnapshot.getChildrenCount() == 0){
 
                         Log.d(TAG, "no hay contactos");
 
                     }else {
-                        User cCurrent =  dataSnapshot.child(String.valueOf(i + 1)).getValue(User.class);
-                        constructorDB.insertarContacto(cCurrent);
+
+                        for (int i = 1; i <= dataSnapshot.getChildrenCount(); i++) {
+
+                            User cCurrent = dataSnapshot.child(String.valueOf(i)).getValue(User.class);
+                            constructorDB.insertarContacto(cCurrent);
+
+                        }
+
                     }
-                    
-                }
+
+
 
             }
 
