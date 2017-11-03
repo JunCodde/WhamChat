@@ -33,6 +33,10 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         notif.setTitulo(remoteMessage.getNotification().getTitle());
         notif.setDescripcion(remoteMessage.getNotification().getBody());
 
+        Log.d(TAG, "Id: " + notif.getId() + "\n"
+                    + "Titulo: " + notif.getTitulo()+ "\n"
+                    + "descripcion" + notif.getDescripcion() );
+
         showNotif(notif);
     }
 
