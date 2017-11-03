@@ -148,6 +148,12 @@
                     android:text="Registrarse"
                     android:theme="@style/Miraisedbtn"/>
 
+                <ProgressBar
+                    android:id="@+id/progressBarRegistro"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"/>
+
             </LinearLayout>
 
             <LinearLayout
