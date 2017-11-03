@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.apps.juncode.pruebawham.BaseDatos.BaseDatos;
+import com.apps.juncode.pruebawham.BaseDatos.ConstructorDB;
 import com.apps.juncode.pruebawham.Model.User;
 import com.apps.juncode.pruebawham.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -83,6 +84,16 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
+    }
+
+    public void actContactos(){
+
+        final ConstructorDB constructorDB = new ConstructorDB(this);
+        constructorDB.BorrarContactos();
+
+
+
+
     }
 
     public void datosAlToolBar(){

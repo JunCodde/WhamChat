@@ -5,7 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.nfc.Tag;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.apps.juncode.pruebawham.Model.User;
 
@@ -17,7 +19,7 @@ import java.util.ArrayList;
 
 public class BaseDatos extends SQLiteOpenHelper {
 
-    private static final String TAG = "Base datos";
+    private static final String TAG = "Basedatos";
     private Context context;
 
     public BaseDatos(Context context) {
@@ -145,10 +147,25 @@ public class BaseDatos extends SQLiteOpenHelper {
         db.close();
     }
 
-    public  void insertarContacto(ContentValues contentValues){
+    public  void insertarContacto(ContentValues contentValues, String UID){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.insert(ConstantesDB.TABLA_CONTACTOS, null, contentValues);
-        db.close();
+
+        String[] args = new String[] {UID};
+        Cursor c = db.query(ConstantesDB.TABLA_CONTACTOS, null, ConstantesDB.TABLA_CONTACTOS_UID + "=?", args, null, null, null );
+
+        if(c.moveToFirst()){
+
+            Log.d(TAG, "Ya existe prro");
+
+        }else{
+
+            db.insert(ConstantesDB.TABLA_CONTACTOS, null, contentValues);
+            db.close();
+
+        }
+
+
+
 
     }
 

@@ -49,7 +49,7 @@ public class ConstructorDB {
         contentValues.put(ConstantesDB.TABLA_CONTACTOS_TOKEN, c.getToken());
         contentValues.put(ConstantesDB.TABLA_CONTACTOS_FOTO, c.getFoto());
         contentValues.put(ConstantesDB.TABLA_CONTACTOS_ACTIVO, c.getActivo());
-        db.insertarContacto(contentValues);
+        db.insertarContacto(contentValues, c.getUID());
         db.close();
 
     }

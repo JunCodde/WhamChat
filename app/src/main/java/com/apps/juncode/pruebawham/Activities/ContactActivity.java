@@ -105,17 +105,15 @@ public class ContactActivity extends AppCompatActivity {
                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     User u = dataSnapshot.getValue(User.class);
 
-                                    User c = new User(u.getToken(), u.getUID(), u.getNombre(), u.getCorreo(), u.getFoto(), u.getActivo());
+                                    guardarDB(u);
 
-                                    guardarDB(c);
-
-                                    guardarRealTime(c);
+                                    guardarRealTime(u);
 
                                     ponerRV();
 
-                                    Log.d(TAG,  "Nombre:"   +  c.getNombre()    + "\n" +
-                                            "Correo:"   +  c.getCorreo()    + "\n" +
-                                            "UID:"      +  c.getUID()       + "\n");
+                                    Log.d(TAG,  "Nombre:"   +  u.getNombre()    + "\n" +
+                                            "Correo:"   +  u.getCorreo()    + "\n" +
+                                            "UID:"      +  u.getUID()       + "\n");
                                 }
 
                                 @Override
@@ -158,7 +156,7 @@ public class ContactActivity extends AppCompatActivity {
 
         ConstructorDB constructorDB = new ConstructorDB(activity);
         constructorDB.insertarContacto(c);
-
+        Log.d(TAG, "Guardado COntactp");
     }
 
     private void ponerRV(){

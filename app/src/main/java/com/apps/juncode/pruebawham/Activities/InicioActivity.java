@@ -180,9 +180,6 @@ public class InicioActivity extends AppCompatActivity {
                         }
 
                     }
-
-
-
             }
 
             @Override
