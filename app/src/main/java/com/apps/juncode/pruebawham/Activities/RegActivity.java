@@ -67,6 +67,7 @@ public class RegActivity extends AppCompatActivity {
     private String MEDIA_DIRECTORY = APP_DIRECTORY + "media";
     private Bitmap fotoFinal = null;
     private boolean fotolista = false;
+    private String downloadUrl = null;
 
     private static final String USERS_NODE = "User";
     private DatabaseReference databaseReference;
@@ -316,13 +317,11 @@ public class RegActivity extends AppCompatActivity {
                     Log.d(TAG, "Token: " + user.getToken());
 
                     //Ademas guarda los datos en firebase y en la DB local :)
+
+
                     guardarFotoStorage(user);
 
-
-                    Toast.makeText(RegActivity.this, "Cuenta creada, inicia sesion", Toast.LENGTH_SHORT).show();
-                    finish();
                 }else{
-
 
                     btn_crear.setVisibility(View.VISIBLE);
                     progressBarRegistro.setVisibility(View.GONE);
@@ -361,9 +360,7 @@ public class RegActivity extends AppCompatActivity {
             }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    String downloadUrl = taskSnapshot.getDownloadUrl().getPath();
-
-                    Log.d(TAG, downloadUrl);
+                    downloadUrl = taskSnapshot.getDownloadUrl().getPath();
 
                     user.setFoto(String.valueOf(downloadUrl));
 
@@ -383,11 +380,21 @@ public class RegActivity extends AppCompatActivity {
 
                     Log.d(TAG, "Van: " + String.valueOf(van) + " de " + String.valueOf(son));
                 }
+            }).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+
+                    Toast.makeText(RegActivity.this, "Cuenta creada, inicia sesion", Toast.LENGTH_SHORT).show();
+                    finish();
+
+                }
             });
         } else {
 
             guardarRealTime(user);
             guardarDB(user);
+            Toast.makeText(RegActivity.this, "Cuenta creada, inicia sesion", Toast.LENGTH_SHORT).show();
+            finish();
 
         }
     }
