@@ -3,6 +3,7 @@ package com.apps.juncode.pruebawham.Activities;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -40,11 +41,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Calendar;
 
 public class RegActivity extends AppCompatActivity {
@@ -160,64 +165,11 @@ public class RegActivity extends AppCompatActivity {
                     }else{
                         if(isNetDisponible()){
 
-                            if(fotolista){
-
-                                btn_crear.setVisibility(View.GONE);
-                                progressBarRegistro.setVisibility(View.VISIBLE);
-
-                                Log.d(TAG, "tiene foto");
-
-                                final User user = new User( "token", "uid", et_Reg_nombre.getText().toString(), et_Reg_email.getText().toString(), "Foto", "false");
-                                final String clave = et_Reg_pass.getText().toString();
-
-
-                                storageReference.child(user.getUID() + ".png");
-
-                                img_contacto.setDrawingCacheEnabled(true);
-                                img_contacto.buildDrawingCache();
-
-                                Bitmap bitmap = img_contacto.getDrawingCache();
-                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-
-                                byte[] storageByte = baos.toByteArray();
-
-                                UploadTask uploadTask = storageReference.putBytes(storageByte);
-                                uploadTask.addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-
-                                        Log.d(TAG, "Error en la subida");
-                                        btn_crear.setVisibility(View.VISIBLE);
-                                        progressBarRegistro.setVisibility(View.GONE);
-                                        Toast.makeText(activity, "No se pudo subir la imagen", Toast.LENGTH_SHORT).show();
-                                        e.printStackTrace();
-
-                                    }
-                                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                    @Override
-                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                                        String uriFotoContacto = taskSnapshot.getDownloadUrl().getPath();
-
-                                        user.setFoto(uriFotoContacto);
-                                        crearCuenta(user, clave);
-
-
-                                    }
-                                });
-
-
-
-                            }else{
-
                                 btn_crear.setVisibility(View.GONE);
                                 progressBarRegistro.setVisibility(View.VISIBLE);
                                 User user = new User( "token", "uid", et_Reg_nombre.getText().toString(), et_Reg_email.getText().toString(), "Foto", "false");
                                 String clave = et_Reg_pass.getText().toString();
                                 crearCuenta(user, clave);
-
-                            }
 
                         }else{
                             Toast.makeText(RegActivity.this, "Revisa tu conexion a internet", Toast.LENGTH_SHORT).show();
@@ -271,7 +223,7 @@ public class RegActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        String hora = getHora();
+    String hora = getHora();
 
         switch (requestCode){
             case CODIGO_FOTO:
@@ -280,6 +232,7 @@ public class RegActivity extends AppCompatActivity {
                     String dir = Environment.getExternalStorageDirectory() + File.separator
                             + MEDIA_DIRECTORY + File.separator + "User_" + hora;
                     decodeBitmap(dir);
+
                 }
                 break;
 
@@ -290,8 +243,6 @@ public class RegActivity extends AppCompatActivity {
                     img_contacto.setImageURI(path);
                     fotoFinal = ((BitmapDrawable)img_contacto.getDrawable()).getBitmap();
                     fotolista = true;
-                    img_perfil_circulo(fotoFinal);
-
                 }
                 break;
         }
@@ -322,6 +273,30 @@ public class RegActivity extends AppCompatActivity {
 
     }
 
+    private String guardarImg(Context context, Bitmap imagen){
+        ContextWrapper cw = new ContextWrapper(context);
+        File dirImages = cw.getDir("Imagenes", Context.MODE_PRIVATE);
+
+        String hora = getHora();
+
+        File myPath = new File(dirImages, "Perfil.jpeg");
+
+        Log.d(TAG,"A las: " + hora);
+        FileOutputStream fos = null;
+        try{
+            fos = new FileOutputStream(myPath);
+            imagen.compress(Bitmap.CompressFormat.JPEG, 40, fos);
+            fos.flush();
+        }catch (FileNotFoundException ex){
+            ex.printStackTrace();
+        }catch (IOException ex){
+            ex.printStackTrace();
+        }
+        return myPath.getAbsolutePath();
+
+
+    }
+
     private void crearCuenta(final User user, String clave){
 
         Log.d(TAG, "Nombre: " + user.getNombre());
@@ -340,9 +315,9 @@ public class RegActivity extends AppCompatActivity {
                     user.setToken(token);
                     Log.d(TAG, "Token: " + user.getToken());
 
+                    //Ademas guarda los datos en firebase y en la DB local :)
+                    guardarFotoStorage(user);
 
-                    guardarRealTime(user);
-                    guardarDB(user);
 
                     Toast.makeText(RegActivity.this, "Cuenta creada, inicia sesion", Toast.LENGTH_SHORT).show();
                     finish();
@@ -356,6 +331,63 @@ public class RegActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void guardarFotoStorage(final User user) {
+        if (fotolista) {
+
+            btn_crear.setVisibility(View.GONE);
+            progressBarRegistro.setVisibility(View.VISIBLE);
+
+
+            StorageReference perfilFotoRef = storageReference.child(user.getUID() + ".jpeg");
+
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            fotoFinal.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] imageInByte = baos.toByteArray();
+
+            UploadTask uploadTask = perfilFotoRef.putBytes(imageInByte);
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                    Toast.makeText(activity, "no se subio manual", Toast.LENGTH_SHORT).show();
+
+                    btn_crear.setVisibility(View.VISIBLE);
+                    progressBarRegistro.setVisibility(View.GONE);
+
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    String downloadUrl = taskSnapshot.getDownloadUrl().getPath();
+
+                    Log.d(TAG, downloadUrl);
+
+                    user.setFoto(String.valueOf(downloadUrl));
+
+                    guardarRealTime(user);
+                    guardarDB(user);
+
+                    guardarImg(RegActivity.this, fotoFinal);
+
+                }
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    Long van = taskSnapshot.getBytesTransferred();
+                    Long son = taskSnapshot.getTotalByteCount();
+
+                    Log.d(TAG, "Van: " + String.valueOf(van) + " de " + String.valueOf(son));
+                }
+            });
+        } else {
+
+            guardarRealTime(user);
+            guardarDB(user);
+
+        }
     }
 
     public void guardarDB(User u){

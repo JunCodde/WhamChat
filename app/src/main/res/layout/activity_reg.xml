@@ -60,6 +60,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:theme="@style/colorAcentgris"
+                    android:text="Name"
                     android:hint="@string/reg_name" />
 
                 <EditText
@@ -67,6 +68,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/reg_email"
+                    android:text="name@gmail.com"
                     android:theme="@style/colorAcentgris"
                     android:inputType="textEmailAddress"/>
 
@@ -116,6 +118,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:theme="@style/colorAcentgris"
+                            android:text="1234567"
                             android:inputType="textPassword"/>
 
                         <EditText
@@ -124,6 +127,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:theme="@style/colorAcentgris"
+
+                            android:text="1234567"
                             android:inputType="textPassword"/>
 
                     </TableRow>
