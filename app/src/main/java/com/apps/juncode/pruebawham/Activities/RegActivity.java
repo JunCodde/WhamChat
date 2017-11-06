@@ -370,7 +370,9 @@ public class RegActivity extends AppCompatActivity {
                     guardarRealTime(user);
                     guardarDB(user);
 
-                    guardarImg(RegActivity.this, fotoFinal);
+                    String rutaLocal = guardarImg(RegActivity.this, fotoFinal);
+
+                    Log.d(TAG, rutaLocal);
 
                 }
             }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
