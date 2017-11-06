@@ -1,7 +1,10 @@
 package com.apps.juncode.pruebawham.Activities;
 
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -20,6 +23,8 @@ import com.apps.juncode.pruebawham.BaseDatos.ConstructorDB;
 import com.apps.juncode.pruebawham.Model.User;
 import com.apps.juncode.pruebawham.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,6 +35,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class InicioActivity extends AppCompatActivity {
 
@@ -40,6 +53,8 @@ public class InicioActivity extends AppCompatActivity {
     private static final String USERS_NODE = "User";
     private static final String CONTACT_NODE = "Contact";
     private DatabaseReference databaseReference;
+
+    private StorageReference storageReference;
 
     TextView tv_create;
     EditText et_userName, et_pass;
@@ -61,6 +76,8 @@ public class InicioActivity extends AppCompatActivity {
         et_pass         = (EditText)    findViewById(R.id.et_ini_pass);
         btn_iniciar     = (Button)      findViewById(R.id.btn_ini_Iniciar);
         progressBar     = (ProgressBar) findViewById(R.id.ProgressBarIniciar);
+
+        storageReference = FirebaseStorage.getInstance().getReference();
 
         btn_iniciar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,9 +145,8 @@ public class InicioActivity extends AppCompatActivity {
 
                             User u = dataSnapshot.getValue(User.class);
                             u.setActivo("false");
-                            actContactos(u);
-                            guardarDB(u);
-                            checkBD();
+                            descargarFotoPerfil(u);
+
 
                         }
 
@@ -150,6 +166,82 @@ public class InicioActivity extends AppCompatActivity {
                 }
             }
         });
+
+    }
+
+    public void descargarFotoPerfil(final User u){
+
+        final File file;
+        try {
+
+            file = File.createTempFile("Perfil", "jpg");
+            storageReference.child(u.getUID() + ".jpeg").getFile(file)
+                    .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                            Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                            guardarImg(InicioActivity.this, bitmap);
+
+                            checkFoto(u);
+
+
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.e(TAG, "La imagen no existe");
+                    e.printStackTrace();
+
+                    actContactos(u);
+                    guardarDB(u);
+                    checkBD();
+                }
+            });
+
+
+        }catch (Exception e){
+            Log.e(TAG, "La descarga se fue ALV");
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public void checkFoto(final User u){
+
+        File foto = new File(String.valueOf("/data/data/com.apps.juncode.pruebawham/app_Imagenes/Perfil.jpeg"));
+        if(foto.exists()){
+
+            actContactos(u);
+            guardarDB(u);
+            checkBD();
+
+        }else{
+
+            checkFoto(u);
+
+        }
+    }
+
+    private String guardarImg(Context context, Bitmap imagen){
+        ContextWrapper cw = new ContextWrapper(context);
+        File dirImages = cw.getDir("Imagenes", Context.MODE_PRIVATE);
+
+        File myPath = new File(dirImages, "Perfil.jpeg");
+
+        FileOutputStream fos = null;
+        try{
+            fos = new FileOutputStream(myPath);
+            imagen.compress(Bitmap.CompressFormat.JPEG, 40, fos);
+            fos.flush();
+        }catch (FileNotFoundException ex){
+            ex.printStackTrace();
+        }catch (IOException ex){
+            ex.printStackTrace();
+        }
+        return myPath.getAbsolutePath();
+
 
     }
 
